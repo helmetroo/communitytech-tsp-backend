@@ -39,3 +39,9 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+gem "geocoder", "~> 1.6"
+
+gem "google_distance_matrix", "~> 0.6.2"
+
+gem "or-tools", "~> 0.1.3"

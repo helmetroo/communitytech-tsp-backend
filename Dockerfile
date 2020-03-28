@@ -5,6 +5,20 @@ RUN mkdir /communitytech-tsp
 WORKDIR /communitytech-tsp
 COPY Gemfile /communitytech-tsp/Gemfile
 COPY Gemfile.lock /communitytech-tsp/Gemfile.lock
+
+# Installs or-tools C++ library
+RUN apt-get -y install zlib1g-dev curl
+RUN mkdir /communitytech-tsp-lib
+WORKDIR /communitytech-tsp-lib
+RUN curl -L https://github.com/google/or-tools/releases/download/v7.5/or-tools_ubuntu-18.04_v7.5.7466.tar.gz > or-tools.tar.gz
+RUN mkdir ./or-tools
+RUN tar -xzf or-tools.tar.gz --strip 1 -C ./or-tools
+RUN cp -a ./or-tools/lib/. /usr/lib/
+RUN ldconfig -n -v /usr/lib
+RUN bundle config build.or-tools --with-or-tools-dir=/communitytech-tsp-lib/or-tools
+WORKDIR /communitytech-tsp
+
+# Install all gems
 RUN bundle install
 COPY . /communitytech-tsp
 
