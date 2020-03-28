@@ -7,24 +7,32 @@ require_relative '../../lib/shortest_route_solver/shortest_route_solution_extrac
 
 class ShortestRouteController < ApplicationController
   def get
+    geolocations =
+      ShortestRouteController.get_geolocations_from_address_params(address_params)
+
     shortest_route_order =
       ShortestRouteController
-        .get_shortest_route_order_from_address_params(address_params)
+        .get_shortest_route_order_from_geolocations(geolocations)
 
     render json: {
+             :geolocations => geolocations,
              :order => shortest_route_order
            }
   end
 
   protected
-  def self.get_shortest_route_order_from_address_params(address_params)
+  def self.get_geolocations_from_address_params(address_params)
     addresses = address_params.split('|')
-    geolocations = addresses.map do |address|
+    addresses.map do |address|
       geolocation = Geocoder.search(address).first
       Geolocation.new(latitude: geolocation.latitude, longitude: geolocation.longitude)
     end
+  end
 
+  protected
+  def self.get_shortest_route_order_from_geolocations(geolocations)
     origin, *destinations = geolocations
+
     ShortestRouteController
       .get_shortest_route_order_from_origin_and_destinations(origin: origin, destinations: destinations)
   end

@@ -25,4 +25,10 @@ class Geolocation
   def to_postgis_point
     %(ST_SetSRID(ST_MakePoint(#{@latitude}, #{@longitude}), 4326))
   end
+
+  public
+  def to_hash
+    { :latitude => @latitude, :longitude => @longitude }
+  end
+
 end
