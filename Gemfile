@@ -45,3 +45,5 @@ gem "geocoder", "~> 1.6"
 gem "google_distance_matrix", "~> 0.6.2"
 
 gem "or-tools", "~> 0.1.3"
+
+gem "rack-cors", "~> 1.1"
