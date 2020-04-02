@@ -53,6 +53,19 @@ If you install some packages with bundler, you'll want to rebuild with
 docker-compose run web bundle install && docker-compose up --build
 ```
 
+## If you're running Windows
+If you run into this error booting up the server:
+```bash
+standard_init_linux.go:211: exec user process caused "no such file or directory"
+```
+
+Docker runs into issues with Dockerfiles with CRLF line endings on Windows. Before you clone this repo, force git to not change the line endings with:
+```bash
+git config --global core.autocrlf false
+```
+
+Then you should be able to clone the repo and boot up the server.
+
 ## If you're running Linux
 Using rails commands to generate stuff on Linux using Docker assigns the new files root permissions. Fix this by running this snippet from the root of the app before you start working on those files:
 ```bash
